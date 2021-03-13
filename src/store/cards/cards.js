@@ -1,4 +1,3 @@
-import { API, graphqlOperation, Storage } from "aws-amplify";
 
 import { getDeck as getDeckQuery } from "@/graphql/queries";
 import { listDecks as listDecksQuery } from "@/graphql/queries";
@@ -33,7 +32,6 @@ import { getEquipmentVersion as getEquipmentVersionQuery } from "@/graphql/queri
 import { listEquipmentVersions as listEquipmentVersionsQuery } from "@/graphql/queries";
 
 import { v4 as uuid } from "uuid";
-import awsconfig from "@/aws-exports";
 
 export const cardInfo = {
   namespaced: true,
@@ -373,42 +371,6 @@ export const cardInfo = {
         commit("appendCards", cardsData.data.listCards.items);
       }
     },
-    async createCard(_, data) {
-      const {
-        aws_user_files_s3_bucket_region: region,
-        aws_user_files_s3_bucket: bucket,
-      } = awsconfig;
-      const { file, cardData } = data;
-      // const extension = file.name.substr(file.name.lastIndexOf(".") + 1);
-      const cardId = uuid();
-      // const key = `images/${cardId}.${extension}`;
-      // const inputData = {
-      //   id: cardId,
-      //   photoAlbumId: id,
-      //   contentType: mimeType,
-      //   fullsize: {
-      //     key,
-      //     region,
-      //     bucket,
-      //   },
-      // };
-
-      //s3 bucket storage add file to it
-      try {
-        // await Storage.put(key, file, {
-        //   level: "protected",
-        //   contentType: mimeType,
-        //   metadata: { albumId: id, cardId },
-        // });
-        await API.graphql(
-          graphqlOperation(createCardMutation, { input: cardData })
-        );
-        return Promise.resolve("success");
-      } catch (error) {
-        console.log("createCard error", error);
-        return Promise.reject(error);
-      }
-    },
 
     /**
      * Artifacts
@@ -619,42 +581,6 @@ export const cardInfo = {
           authMode: "API_KEY",
         });
         commit("appendArtifacts", artifactsData.data.listartifacts.items);
-      }
-    },
-    async createArtifact(_, data) {
-      const {
-        aws_user_files_s3_bucket_region: region,
-        aws_user_files_s3_bucket: bucket,
-      } = awsconfig;
-      const { file, artifactData } = data;
-      // const extension = file.name.substr(file.name.lastIndexOf(".") + 1);
-      const artifactId = uuid();
-      // const key = `images/${cardId}.${extension}`;
-      // const inputData = {
-      //   id: cardId,
-      //   photoAlbumId: id,
-      //   contentType: mimeType,
-      //   fullsize: {
-      //     key,
-      //     region,
-      //     bucket,
-      //   },
-      // };
-
-      //s3 bucket storage add file to it
-      try {
-        // await Storage.put(key, file, {
-        //   level: "protected",
-        //   contentType: mimeType,
-        //   metadata: { albumId: id, cardId },
-        // });
-        await API.graphql(
-          graphqlOperation(createArtifactMutation, { input: artifactData })
-        );
-        return Promise.resolve("success");
-      } catch (error) {
-        console.log("createArtifact error", error);
-        return Promise.reject(error);
       }
     },
 
@@ -869,42 +795,6 @@ export const cardInfo = {
           authMode: "API_KEY",
         });
         commit("appendEquipments", equipmentsData.data.listequipments.items);
-      }
-    },
-    async createEquipment(_, data) {
-      const {
-        aws_user_files_s3_bucket_region: region,
-        aws_user_files_s3_bucket: bucket,
-      } = awsconfig;
-      const { file, equipmentData } = data;
-      // const extension = file.name.substr(file.name.lastIndexOf(".") + 1);
-      const equipmentId = uuid();
-      // const key = `images/${cardId}.${extension}`;
-      // const inputData = {
-      //   id: cardId,
-      //   photoAlbumId: id,
-      //   contentType: mimeType,
-      //   fullsize: {
-      //     key,
-      //     region,
-      //     bucket,
-      //   },
-      // };
-
-      //s3 bucket storage add file to it
-      try {
-        // await Storage.put(key, file, {
-        //   level: "protected",
-        //   contentType: mimeType,
-        //   metadata: { albumId: id, cardId },
-        // });
-        await API.graphql(
-          graphqlOperation(createEquipmentMutation, { input: equipmentData })
-        );
-        return Promise.resolve("success");
-      } catch (error) {
-        console.log("createEquipment error", error);
-        return Promise.reject(error);
       }
     },
   },

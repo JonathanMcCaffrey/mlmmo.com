@@ -117,7 +117,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as subscriptions from "@/graphql/subscriptions";
 import Equipment from "@/components/Equipment.vue";
 
